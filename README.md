@@ -1,5 +1,3 @@
-# lightning-donation-platform
-
 # Flash Aid: Instant Disaster Relief on the Lightning Network ⚡
 
 **Flash Aid** is a Proof-of-Concept (MVP) for a trustless, instant, and zero-fee donation platform designed for disaster relief in areas with failing banking infrastructure. 
