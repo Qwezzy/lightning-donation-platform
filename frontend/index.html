@@ -1,1 +1,24 @@
 <!-- Main frontend page --> 
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+<meta charset="UTF-8">    
+<meta name="viewport content="width=device-width, initial-scale=1.0">
+
+    <title>DONATION PLATFORM</title>
+</head>   
+<body>
+   
+    <div class="container">
+        <h2>Lightning Donation Platform</h2>
+
+        <input type="number" id="amount" placeholder="Enter amount   (stats)" min="1">
+        <button id="donateBtn" onclick="createInvoice()">Donate</button>
+
+        <div id="invoice"></div>
+        <canvas id="qrCode"></canvas>
+        <div id="success"></div>
+    </div>
+</body>
