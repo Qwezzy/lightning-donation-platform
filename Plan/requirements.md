@@ -22,6 +22,9 @@ Flash Aid is a Lightning Network-based disaster relief donation platform that en
 - **Channel_Balance**: The distribution of funds between the two parties in a channel
 - **Macaroon**: Authentication token for LND API access
 - **TLS_Certificate**: Transport Layer Security certificate for encrypted LND communication
+- **Frontend**: The web-based user interface for donors and recipients
+- **Backend**: The Express.js server that handles API requests and Lightning operations
+- **QR_Code**: A visual representation of the Lightning invoice for mobile wallet scanning
 
 ## Requirements
 
@@ -119,32 +122,34 @@ Flash Aid is a Lightning Network-based disaster relief donation platform that en
 8. THE API SHALL validate all input parameters before processing requests
 9. IF input validation fails, THEN THE API SHALL return a 400 Bad Request error with validation details
 
-### Requirement 8: Frontend Donor Interface
+### Requirement 8: Frontend Donation Interface
 
-**User Story:** As a donor, I want a web interface to view available relief items and send donations, so that I can easily contribute to disaster relief efforts.
-
-#### Acceptance Criteria
-
-1. WHEN a donor visits the platform, THE Donor_Interface SHALL display available relief items with descriptions and amounts
-2. WHEN a donor selects an item, THE Donor_Interface SHALL request an invoice from the backend
-3. WHEN an invoice is received, THE Donor_Interface SHALL display the payment request and amount to the donor
-4. WHEN a donor confirms payment, THE Donor_Interface SHALL send the payment through the backend API
-5. WHEN payment completes, THE Donor_Interface SHALL display the preimage as proof of delivery
-6. WHEN payment fails, THE Donor_Interface SHALL display the failure reason to the donor
-7. THE Donor_Interface SHALL display a history of the donor's past donations with timestamps and statuses
-
-### Requirement 9: Frontend Recipient Interface
-
-**User Story:** As a recipient, I want a web interface to create invoices for supplies I need, so that donors can send me funds for disaster relief.
+**User Story:** As a donor, I want a web interface to enter donation amounts and complete payments, so that I can easily contribute to disaster relief efforts.
 
 #### Acceptance Criteria
 
-1. WHEN a recipient visits the platform, THE Recipient_Interface SHALL provide a form to create invoices
-2. WHEN creating an invoice, THE Recipient_Interface SHALL accept amount and description inputs
-3. WHEN an invoice is created, THE Recipient_Interface SHALL display the payment request string and QR code
-4. THE Recipient_Interface SHALL monitor invoice status and notify when payment is received
-5. WHEN payment is received, THE Recipient_Interface SHALL display the payment amount and donor information
-6. THE Recipient_Interface SHALL display a history of received donations with timestamps and amounts
+1. WHEN a donor visits the platform, THE Frontend SHALL display a donation form with amount input and description field
+2. WHEN a donor enters an amount and clicks donate, THE Frontend SHALL request an invoice from the Backend
+3. WHEN an invoice is received, THE Frontend SHALL display the payment request string and generate a QR_Code
+4. THE Frontend SHALL display the invoice amount in satoshis and provide visual feedback during invoice generation
+5. WHEN displaying the QR_Code, THE Frontend SHALL render it on a canvas element for mobile wallet scanning
+6. THE Frontend SHALL poll the Backend to check invoice payment status at regular intervals
+7. WHEN payment is detected, THE Frontend SHALL display the preimage as proof of delivery
+8. WHEN payment fails or times out, THE Frontend SHALL display an appropriate error message
+9. THE Frontend SHALL be mobile-responsive and work on devices of all sizes
+
+### Requirement 9: Real-Time Payment Status Updates
+
+**User Story:** As a donor, I want to see real-time updates on my payment status, so that I know when my donation has been successfully delivered.
+
+#### Acceptance Criteria
+
+1. WHEN an invoice is generated, THE Frontend SHALL begin polling the payment status endpoint
+2. THE Frontend SHALL poll at intervals of 2 seconds until payment is detected or timeout occurs
+3. WHEN payment status changes to "settled", THE Frontend SHALL stop polling and display success
+4. WHEN invoice expires, THE Frontend SHALL stop polling and display expiration message
+5. THE Frontend SHALL display loading indicators during status checks
+6. THE Backend SHALL provide an endpoint that returns current invoice status including settled state and preimage
 
 ### Requirement 10: Error Handling and Recovery
 
@@ -181,5 +186,18 @@ Flash Aid is a Lightning Network-based disaster relief donation platform that en
 1. THE System SHALL accept invoice amounts as low as 1 satoshi
 2. WHEN processing micropayments, THE System SHALL ensure zero fees are applied
 3. THE System SHALL validate that channel capacity supports the micropayment amount
-4. WHEN displaying amounts, THE System SHALL show both satoshi and approximate fiat currency values
+4. WHEN displaying amounts, THE Frontend SHALL show amounts in satoshis
 5. THE Invoice_Generator SHALL support creating invoices for amounts between 1 satoshi and channel capacity limits
+
+### Requirement 13: Data Persistence and Recovery
+
+**User Story:** As a system administrator, I want donation data to persist across system restarts, so that no donation records are lost.
+
+#### Acceptance Criteria
+
+1. THE Donation_Tracker SHALL store all donation records in a JSON file on disk
+2. WHEN a donation record is created or updated, THE Donation_Tracker SHALL immediately write to disk
+3. WHEN the system starts, THE Donation_Tracker SHALL load all existing donation records from disk
+4. THE System SHALL use atomic file writes to prevent data corruption during writes
+5. IF the data file is corrupted, THEN THE System SHALL log an error and start with an empty donation history
+6. THE System SHALL create the data directory if it does not exist on startup
