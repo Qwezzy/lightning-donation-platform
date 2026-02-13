@@ -1,8 +1,17 @@
 import express from 'express';
+import { exec } from 'child_process';
+import util from 'util';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const execPromise = util.promisify(exec);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const pythonScriptPath = path.join(__dirname, '../py/lnd_client.py');
 
 const router = express.Router();
 
-export default function createApiRoutes(invoiceGenerator, statusMonitor, lightningClient, donationTracker, mavaPayClient) {
+export default function createApiRoutes(invoiceGenerator, statusMonitor, lightningClient, donationTracker) {
 
     // POST /api/invoice - Create a new lightning invoice
     router.post('/invoice', async (req, res, next) => {
@@ -14,29 +23,62 @@ export default function createApiRoutes(invoiceGenerator, statusMonitor, lightni
                 return res.status(400).json({ error: 'Amount must be a positive integer' });
             }
 
-            // Generate invoice
-            const invoice = await invoiceGenerator.generateInvoice({
-                amount: parseInt(amount),
-                description: description || 'Donation'
-            });
+            console.log(`Generating invoice via Python script for ${amount} sats...`);
 
-            // Create donation record
-            const donation = await donationTracker.createDonation({
-                paymentHash: invoice.paymentHash,
+            // Execute Python script
+            // Ensure we use the right python command. Tries 'python3' then 'python'
+            const command = `python "${pythonScriptPath}" invoice --amount ${amount} --memo "${description || 'Donation'}"`;
+
+            // Increase maxBuffer for large base64 output if needed (default is 1MB which is enough for QR)
+            const { stdout, stderr } = await execPromise(command);
+
+            if (stderr) {
+                // Python might output warnings to stderr, but if it exits 0 it's fine. 
+                // However, we should check if stdout is valid JSON.
+                console.warn('Python stderr:', stderr);
+            }
+
+            let invoiceData;
+            try {
+                invoiceData = JSON.parse(stdout);
+            } catch (e) {
+                console.error('Failed to parse Python output:', stdout);
+                throw new Error('Invalid response from invoice generator script');
+            }
+
+            if (invoiceData.error) {
+                throw new Error(`Python script error: ${invoiceData.error}`);
+            }
+
+            console.log('Invoice generated successfully:', invoiceData.r_hash);
+
+            // Create donation record (Keep existing tracking logic)
+            // We need to construct the object expected by donationTracker
+            // Python returns: request, r_hash, add_index, payment_addr, qr_code_base64
+
+            // We need expiresAt. The python script doesn't return it explicitly in current modifications,
+            // but we can default or add it. LND default is 3600.
+            // Let's assume 1 hour from now for tracking purpose.
+            const expiresAt = new Date(Date.now() + 3600 * 1000);
+
+            await donationTracker.createDonation({
+                paymentHash: invoiceData.r_hash, // Python returns 'r_hash'
                 amount: parseInt(amount),
                 description: description || 'Donation',
-                paymentRequest: invoice.paymentRequest,
-                expiresAt: invoice.expiresAt
+                paymentRequest: invoiceData.payment_request,
+                expiresAt: expiresAt
             });
 
             res.status(201).json({
-                payment_request: invoice.paymentRequest,
-                r_hash: invoice.paymentHash,
-                amount: invoice.amount,
-                expires_at: invoice.expiresAt
+                payment_request: invoiceData.payment_request,
+                r_hash: invoiceData.r_hash,
+                amount: parseInt(amount),
+                expires_at: expiresAt,
+                qr_code_base64: invoiceData.qr_code_base64 // Send this to frontend
             });
 
         } catch (error) {
+            console.error('Invoice generation error:', error);
             next(error);
         }
     });
@@ -75,59 +117,6 @@ export default function createApiRoutes(invoiceGenerator, statusMonitor, lightni
             next(error);
         }
     });
-
-    // --- MavaPay Off-ramp Routes ---
-
-    // GET /api/banks/:country
-    router.get('/banks/:country', async (req, res, next) => {
-        try {
-            const { country } = req.params;
-            const banks = await mavaPayClient.getBanks(country.toUpperCase());
-            res.json(banks);
-        } catch (error) {
-            next(error);
-        }
-    });
-
-    // POST /api/offramp/quote
-    router.post('/offramp/quote', async (req, res, next) => {
-        try {
-            const { amount, bankName, accountNumber, accountName } = req.body;
-
-            // 1. Get Quote from MavaPay
-            const quote = await mavaPayClient.getQuote({
-                amount: amount * 100, // Convert Rand to Cents
-                bankId: bankName,
-                bankAccountNumber: accountNumber,
-                accountName: accountName
-            });
-
-            if (!quote || !quote.invoice) {
-                throw new Error("Failed to generate quote from MavaPay");
-            }
-
-            // 2. We don't need to create a donation record for off-ramp via LND directly 
-            //    because the invoice is generated by MavaPay (hold invoice?)
-            //    However, to track it in our system, we might want to store it.
-            //    For now, let's just return the quote to the frontend.
-
-            res.json({
-                id: quote.id,
-                payment_request: quote.invoice,
-                amount_sats: quote.amountInSourceCurrency,
-                amount_fiat: quote.amountInTargetCurrency,
-                exchange_rate: quote.exchangeRate,
-                expiry: quote.expiry,
-                r_hash: quote.paymentHash // MavaPay might not return this immediately, checking docs...
-                // If MavaPay doc example doesn't show r_hash, we might need to decode the invoice.
-                // Logic can be added here if needed.
-            });
-
-        } catch (error) {
-            next(error);
-        }
-    });
-
 
     return router;
 }

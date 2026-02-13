@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UbuntuChain - Lightning Donations</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">⚡</div>
+            <span>UbuntuChain</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" id="navDonate">Donate</a>
+            <a href="#" id="navOfframp">Off-ramp (ZAR)</a>
+            <a href="#">Apply for Support</a>
+        </div>
+        <button class="btn-primary" id="navCta">Donate Now</button>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <h1>Donate via Lightning</h1>
+        <p>Fast, borderless, low-fee Bitcoin donations for courses that matter.</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Course Grid (Donate View) -->
+        <div id="courseGridView" class="course-grid">
+            <!-- Courses injected via JS -->
+        </div>
+
+        <!-- Off-ramp View (Hidden by default) -->
+        <div id="offrampView"
+            style="display: none; max-width: 500px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-card);">
+            <h2>ZAR Off-ramp</h2>
+            <p style="margin-bottom: 1.5rem; color: #666;">Convert Bitcoin to ZAR and send to any South African bank
+                account.</p>
+
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 1rem;">
+                <select id="countrySelect" class="custom-amount-input" style="margin-bottom:0;">
+                    <option value="ZA" selected>South Africa (ZA)</option>
+                </select>
+                <select id="bankSelect" class="custom-amount-input" style="margin-bottom:0;">
+                    <option value="">Loading Banks...</option>
+                </select>
+                <input type="text" id="accountNumber" class="custom-amount-input" placeholder="Account Number"
+                    style="margin-bottom:0;">
+                <input type="text" id="accountName" class="custom-amount-input" placeholder="Account Name"
+                    style="margin-bottom:0;">
+                <input type="number" id="offrampAmount" class="custom-amount-input" placeholder="Amount (ZAR)" min="10"
+                    style="margin-bottom:0;">
+                <button id="getQuoteBtn" class="btn-primary" style="width: 100%;">Get Quote</button>
+            </div>
+
+            <div id="offrampStatus" class="status-message" style="margin-top: 1rem;"></div>
+
+            <div id="offrampInvoiceContainer" class="invoice-section" style="display:none; text-align: center;">
+                <canvas id="offrampQrCode"></canvas>
+                <div id="offrampInvoiceText"
+                    style="font-size: 0.8rem; word-break: break-all; background: #f5f5f5; padding: 0.5rem; margin-top: 0.5rem;">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Donation Modal -->
+    <div class="modal-overlay" id="donationModal">
+        <div class="donation-modal">
+            <button class="close-modal" id="closeModal">&times;</button>
+
+            <h2 id="modalTitle">Enter Amount</h2>
+            <p style="color: #666; margin-bottom: 1rem;">Choose or enter an amount in satoshis</p>
+
+            <!-- Donation Form inside Modal -->
+            <div id="modalForm">
+                <div class="amount-grid">
+                    <button class="amount-btn" data-amount="1000">1,000</button>
+                    <button class="amount-btn" data-amount="5000">5,000</button>
+                    <button class="amount-btn" data-amount="10000">10,000</button>
+                    <button class="amount-btn" data-amount="50000">50,000</button>
+                </div>
+
+                <input type="number" id="customAmount" class="custom-amount-input" placeholder="Custom amount (sats)">
+
+                <button id="generateInvoiceBtn" class="btn-primary" style="width: 100%;">Generate Lightning
+                    Invoice</button>
+            </div>
+
+            <!-- Status & Invoice View -->
+            <div id="modalStatus" class="status-message" style="margin-top: 1rem;"></div>
+
+            <div id="modalInvoice" class="invoice-section" style="display:none;">
+                <canvas id="modalQrCode"></canvas>
+                <div id="modalInvoiceText"
+                    style="font-size: 0.8rem; word-break: break-all; background: #f5f5f5; padding: 0.5rem; margin-top: 0.5rem;">
+                </div>
+                <div style="margin-top: 1rem; font-size: 0.9rem; color: #4CAF50; display: none;" id="paymentSuccessMsg">
+                    Payment Received!</div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

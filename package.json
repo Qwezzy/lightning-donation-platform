@@ -21,7 +21,7 @@
     "axios": "^1.13.5",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "ln-service": "^57.0.0",
+    "ln-service": "^57.27.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

@@ -1,4 +1,67 @@
-{
-  "total": 0,
-  "invoices": {}
-}
+[
+  {
+    "id": "28124f2e-f61a-40d8-aabc-6f81d3633636",
+    "amount": 100,
+    "description": "Verification Test",
+    "paymentHash": "vNoUKgGiPjt7bj3VeRQ4Yd4R/DE7leaikqhpa8KCkxo=",
+    "paymentRequest": "lnbcrt1u1p5c7xwrpp5hndpg2sp5glrk7mw8h2hj9pcv80prlp38w27dg5j4p5khs5zjvdqdqu2ejhy6txd93kzarfdahzq4r9wd6qcqzzsxqyz5vqsp5xxydm074njltqfskrz0y3ytqv4g3ghaugd849c0lv3v732rj8k2q9qxpqysgqzmdaxa7cnncw5k4h9wqsvpc2j270pl5gvrz3qt03z39w2ga0favzlegd2fgxwr4kgwsrw2hxxk4mm0zut50m6wnmkpqdehuemx2rsscq8es5tf",
+    "preimage": null,
+    "status": "pending",
+    "error": null,
+    "createdAt": "2026-02-13T12:32:03.852Z",
+    "completedAt": null,
+    "expiresAt": "2026-02-13T13:32:03.852Z"
+  },
+  {
+    "id": "55c205c1-d4eb-45c5-b4dc-fb1f8024c003",
+    "amount": 1000,
+    "description": "Donation for Code for Africa",
+    "paymentHash": "jXMpUY3cBXpsdYf5Es5TUc3PVPVPnUEy5+3/h0P0RVs=",
+    "paymentRequest": "lnbcrt10u1p5c7x3dpp534ejj5vdmszh5mr4slu39njn28xu7484f7w5zvh8ahlcwsl5g4dsdpdg3hkuct5d9hkugrxdaezqsm0v3jjqen0wgsyzenjd93kzcqzzsxqyz5vqsp5k3vtnq5v4vnksxz09c76t2r0tuwmvwux0hr8ah84leg8craatp5s9qxpqysgqhflah94nkujthush6339l32mqpyv6tfx6609n4w7q7s4vqwhfa3k56e5d8hduyrshgq0n28sq8mnewq4kx7v9vfgk54sta5jaqv3kfsp3ufkxy",
+    "preimage": null,
+    "status": "pending",
+    "error": null,
+    "createdAt": "2026-02-13T12:33:49.976Z",
+    "completedAt": null,
+    "expiresAt": "2026-02-13T13:33:49.976Z"
+  },
+  {
+    "id": "702b4271-22f6-4612-a00b-c900d7177dfe",
+    "amount": 5000,
+    "description": "Donation for Clean Water Project",
+    "paymentHash": "MnSaMpd63L+7iApFvn06/WBCJ2BeiP6KbM+iLP3aW8Y=",
+    "paymentRequest": "lnbcrt50u1p5c7x5zpp5xf6f5v5h0twtlwugpfzmulf6l4syyfmqt6y0aznve73zelw6t0rqdp5g3hkuct5d9hkugrxdaezqsmvv4skugzhv96x2u3q2pex76n9vd6qcqzzsxqyz5vqsp5grdm4qgsakh4wq59fjawg2eewmhufhlr4snvq8rnp5y90hkgf0us9qxpqysgqgnv68vc656yal8nvkm05qpf6w0ne45vt3wka40ga9995kpaeguj9xzh4ew3uqxnu5gj272nwpsgmzcvsu4zs93e8jpdpjckkjwa4xegqzc740a",
+    "preimage": null,
+    "status": "pending",
+    "error": null,
+    "createdAt": "2026-02-13T12:35:14.542Z",
+    "completedAt": null,
+    "expiresAt": "2026-02-13T13:35:14.542Z"
+  },
+  {
+    "id": "0ce797d7-6916-4f57-9214-3b09c3bca239",
+    "amount": 5000,
+    "description": "Donation for Solar For Schools",
+    "paymentHash": "7WdbAn9sPY1SaKOZ3AHX8xyIGZ4bo7M89RlKc0Q2WQA=",
+    "paymentRequest": "lnbcrt50u1p5c7xegpp5a4n4kqnlds7c65ng5wvacqwh7vwgsxv7rw3mx084r998x3pktyqqdpsg3hkuct5d9hkugrxdaezq5m0d3shygzxdaezq5mrdphk7mrncqzzsxqyz5vqsp50refw36j904fqdy5fzk588pdr30lu897fwckw8ntf7dwc2jh05fq9qxpqysgqhdurgg54s7kg76u9p87udmt60ur5t50hvvgxj7z6kqglugh6l529z8ppl6j6j2lwa252jncracc0ex2why0cgwwcvh4qghcjtteva4sp2pykdl",
+    "preimage": null,
+    "status": "pending",
+    "error": null,
+    "createdAt": "2026-02-13T12:38:01.091Z",
+    "completedAt": null,
+    "expiresAt": "2026-02-13T13:38:01.091Z"
+  },
+  {
+    "id": "8c134fb4-c220-4812-a729-ea7b00ae79bd",
+    "amount": 1000,
+    "description": "Donation for Limpopo Flood Relief",
+    "paymentHash": "oknKTb3wuQPznYco1dJT00d5Tdv+770xV3Gjte6J7dI=",
+    "paymentRequest": "lnbcrt10u1p5c7xmwpp55fyu5nda7zus8uuasu5dt5jn6drhjnwmlmhm6v2hwx3mtm5fahfqdp4g3hkuct5d9hkugrxdaezqnrfd4cx7ur0yprxcmm0vss9yetvd9jkvcqzzsxqyz5vqsp56uw2vnwg56w8v4kdle5jjlv7ehd5sjeyn9fgj80dptelc09g0ueq9qxpqysgqf9m2253yxc9qhn5vjqxz6xcmzpsxrct5zvug4v8u7ht0vq3eht058udum5ukljjrk0w3djurhzz4uz6lnpwkkxnpe9969840xqfxf8gqlfxapu",
+    "preimage": null,
+    "status": "pending",
+    "error": null,
+    "createdAt": "2026-02-13T12:39:10.159Z",
+    "completedAt": null,
+    "expiresAt": "2026-02-13T13:39:10.159Z"
+  }
+]

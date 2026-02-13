@@ -1,34 +1,45 @@
 // --- Data: Dummy Courses ---
 const courses = [
     {
-        id: 'btc-101',
-        title: 'Bitcoin for Beginners',
-        description: 'Learn the fundamentals of Bitcoin, blockchain, and financial sovereignty.',
-        image: 'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-    },
-    {
-        id: 'ln-dev',
-        title: 'Lightning Network Development',
-        description: 'Master LND, payment channels, and building Layer 2 applications.',
-        image: 'https://images.unsplash.com/photo-1605792657660-596af9009e82?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-    },
-    {
-        id: 'agri-tech',
-        title: 'Sustainable Agri-Tech',
-        description: 'Empowering farmers with technology and sustainable practices.',
-        image: 'https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        id: 'code-africa',
+        title: 'Code for Africa',
+        description: 'Empowering African youth with coding skills to build the future of the continent.',
+        image: 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
     },
     {
         id: 'clean-water',
-        title: 'Clean Water Initiative',
-        description: 'Building infrastructure for accessible clean water in remote areas.',
+        title: 'Clean Water Project',
+        description: 'Building boreholes to provide accessible clean water to rural communities.',
         image: 'https://images.unsplash.com/photo-1538300342682-cf57afb97285?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    },
+    {
+        id: 'solar-schools',
+        title: 'Solar For Schools',
+        description: 'Providing renewable solar energy to power education in off-grid areas.',
+        image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    },
+    {
+        id: 'sustainable-farming',
+        title: 'Sustainable Farming',
+        description: 'Supporting smallholder farmers with resources for sustainable agriculture.',
+        image: 'https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    },
+    {
+        id: 'limpopo-floods',
+        title: 'Limpopo Flood Relief',
+        description: 'Emergency aid and rebuilding support for communities affected by floods in Limpopo.',
+        image: 'https://images.unsplash.com/photo-1547683905-f06b1f27f3ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    },
+    {
+        id: 'child-households',
+        title: 'Child Headed Households',
+        description: 'Comprehensive support and mentorship for children leading households alone.',
+        image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
     }
 ];
 
 // --- Elements ---
 const courseGridView = document.getElementById('courseGridView');
-const offrampView = document.getElementById('offrampView');
 const donationModal = document.getElementById('donationModal');
 const closeModalBtn = document.getElementById('closeModal');
 const modalTitle = document.getElementById('modalTitle');
@@ -43,18 +54,7 @@ const paymentSuccessMsg = document.getElementById('paymentSuccessMsg');
 
 // Nav
 const navDonate = document.getElementById('navDonate');
-const navOfframp = document.getElementById('navOfframp');
-
-// Off-ramp elements
-const bankSelect = document.getElementById('bankSelect');
-const getQuoteBtn = document.getElementById('getQuoteBtn');
-const offrampAmountInput = document.getElementById('offrampAmount');
-const accountNumberInput = document.getElementById('accountNumber');
-const accountNameInput = document.getElementById('accountName');
-const countrySelect = document.getElementById('countrySelect');
-const offrampStatus = document.getElementById('offrampStatus');
-const offrampInvoiceContainer = document.getElementById('offrampInvoiceContainer');
-const offrampQrCode = document.getElementById('offrampQrCode');
+const navSupport = document.getElementById('navSupport');
 
 // --- State ---
 let selectedCourse = null;
@@ -65,8 +65,6 @@ let pollInterval = null;
 function init() {
     renderCourses();
     setupEventListeners();
-    // Load banks initially (for off-ramp)
-    loadBanks();
 }
 
 // --- Render Courses ---
@@ -90,16 +88,15 @@ function renderCourses() {
 // --- Event Listeners ---
 function setupEventListeners() {
     // Nav Switching
+    // Nav Switching
     navDonate.addEventListener('click', (e) => {
         e.preventDefault();
-        courseGridView.style.display = 'grid';
-        offrampView.style.display = 'none';
+        setActiveView('donate');
     });
 
-    navOfframp.addEventListener('click', (e) => {
+    navSupport.addEventListener('click', (e) => {
         e.preventDefault();
-        courseGridView.style.display = 'none';
-        offrampView.style.display = 'block';
+        setActiveView('support');
     });
 
     // Modal Close
@@ -123,8 +120,43 @@ function setupEventListeners() {
     // Generate Invoice
     generateInvoiceBtn.addEventListener('click', createDonationInvoice);
 
-    // Off-ramp Quote
-    getQuoteBtn.addEventListener('click', createOfframpQuote);
+    // Support Flow
+    const applyNowBtn = document.getElementById('applyNowBtn');
+    const supportStep1 = document.getElementById('supportStep1');
+    const supportStep2 = document.getElementById('supportStep2');
+    const supportForm = document.getElementById('supportForm');
+    const supportSuccess = document.getElementById('supportSuccess');
+
+    if (applyNowBtn) {
+        applyNowBtn.addEventListener('click', () => {
+            supportStep1.style.display = 'none';
+            supportStep2.style.display = 'block';
+        });
+    }
+
+    if (supportForm) {
+        supportForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Simulate submission
+            const formData = new FormData(supportForm);
+            const data = Object.fromEntries(formData.entries());
+            console.log('Support Application:', data);
+
+            supportForm.style.display = 'none';
+            supportSuccess.style.display = 'block';
+        });
+    }
+
+}
+
+function setActiveView(view) {
+    // Nav Active State
+    navDonate.classList.toggle('active', view === 'donate');
+    navSupport.classList.toggle('active', view === 'support');
+
+    // View Visibility
+    courseGridView.style.display = view === 'donate' ? 'grid' : 'none';
+    document.getElementById('supportWrapper').style.display = view === 'support' ? 'block' : 'none';
 }
 
 // --- Modal Logic ---
@@ -183,10 +215,35 @@ async function createDonationInvoice() {
         modalInvoice.style.display = 'block';
         modalInvoiceText.innerText = data.payment_request;
 
-        if (typeof QRCode !== 'undefined') {
-            QRCode.toCanvas(modalQrCode, data.payment_request, { width: 200 }, function (err) {
-                if (err) console.error(err);
-            });
+        // Use the server-generated QR code (base64)
+        if (data.qr_code_base64) {
+            // Find or create image element
+            let qrImg = document.getElementById('modalQrImage');
+            const canvas = document.getElementById('modalQrCode');
+
+            // If we have a canvas, replace it or hide it. 
+            // Better to replace the canvas with an img tag in the HTML, but here we can just create an img if not exists
+            if (canvas) {
+                canvas.style.display = 'none'; // Hide the old canvas
+            }
+
+            if (!qrImg) {
+                qrImg = document.createElement('img');
+                qrImg.id = 'modalQrImage';
+                qrImg.style.display = 'block';
+                qrImg.style.margin = '0 auto';
+                qrImg.style.maxWidth = '100%';
+                // Insert where canvas was or in container
+                const container = document.getElementById('modalInvoice');
+                container.insertBefore(qrImg, modalInvoiceText);
+            } else {
+                qrImg.style.display = 'block';
+            }
+
+            qrImg.src = `data:image/png;base64,${data.qr_code_base64}`;
+        } else {
+            console.error('No QR code returned from server');
+            modalStatus.innerText = 'Error: No QR code';
         }
 
         currentHash = data.r_hash;
@@ -199,74 +256,7 @@ async function createDonationInvoice() {
     }
 }
 
-// --- Off-ramp Logic ---
-async function loadBanks() {
-    try {
-        const response = await fetch('/api/banks/ZA');
-        const banks = await response.json();
-        bankSelect.innerHTML = '<option value="">Select Bank...</option>';
-        banks.forEach(bank => {
-            const opt = document.createElement('option');
-            opt.value = bank;
-            opt.text = bank;
-            bankSelect.appendChild(opt);
-        });
-    } catch (e) {
-        console.error('Failed to load banks', e);
-    }
-}
 
-async function createOfframpQuote() {
-    const amount = offrampAmountInput.value;
-    const bank = bankSelect.value;
-    const accNum = accountNumberInput.value;
-    const accName = accountNameInput.value;
-
-    if (!amount || !bank || !accNum || !accName) {
-        offrampStatus.innerText = 'Please fill all fields';
-        offrampStatus.className = 'status-message status-error';
-        return;
-    }
-
-    offrampStatus.innerText = 'Getting quote...';
-
-    try {
-        const response = await fetch('/api/offramp/quote', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                amount: amount,
-                bankName: bank,
-                accountNumber: accNum,
-                accountName: accName
-            })
-        });
-
-        if (!response.ok) {
-            const err = await response.json();
-            throw new Error(err.error || response.statusText);
-        }
-
-        const data = await response.json();
-
-        offrampStatus.innerText = `Quote: Pay ${data.amount_sats} sats for ${data.amount_fiat / 100} ZAR`;
-        offrampInvoiceContainer.style.display = 'block';
-        document.getElementById('offrampInvoiceText').innerText = data.payment_request;
-
-        if (typeof QRCode !== 'undefined') {
-            QRCode.toCanvas(offrampQrCode, data.payment_request, { width: 200 }, function (err) {
-                if (err) console.error(err);
-            });
-        }
-
-        // Technically could poll here too if we tracked it in backend
-        // For off-ramp simple demo, we stop here or add polling similar to above
-
-    } catch (e) {
-        offrampStatus.innerText = `Error: ${e.message}`;
-        offrampStatus.className = 'status-message status-error';
-    }
-}
 
 // --- Polling Helper ---
 function startPolling(statusEl, successEl) {

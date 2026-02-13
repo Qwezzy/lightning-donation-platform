@@ -14,7 +14,6 @@ import InvoiceGenerator from './invoice-generator.js';
 import DonationTracker from './donation-tracker.js';
 import ProofManager from './proof-manager.js';
 import StatusMonitor from './status-monitor.js';
-import MavaPayClient from './mavapay.js';
 
 // Routes
 import createApiRoutes from './routes/api.js';
@@ -42,9 +41,6 @@ const invoiceGenerator = new InvoiceGenerator(lightningClient);
 const proofManager = new ProofManager(donationTracker);
 const statusMonitor = new StatusMonitor(lightningClient, donationTracker, proofManager);
 
-const mavaPayApiKey = process.env.MAVAPAY_API_KEY || 'ffaa018738753f4d13916d473b29637e19c53dbb57c';
-const mavaPayClient = new MavaPayClient(mavaPayApiKey, process.env.NODE_ENV === 'production' ? 'production' : 'staging');
-
 // Connect to LND
 (async () => {
   try {
@@ -61,7 +57,7 @@ const mavaPayClient = new MavaPayClient(mavaPayApiKey, process.env.NODE_ENV === 
 })();
 
 // Mount API routes
-app.use('/api', createApiRoutes(invoiceGenerator, statusMonitor, lightningClient, donationTracker, mavaPayClient));
+app.use('/api', createApiRoutes(invoiceGenerator, statusMonitor, lightningClient, donationTracker));
 
 // Health check endpoint
 app.get('/health', (req, res) => {

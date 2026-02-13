@@ -3,40 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>LightningFund | Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UbuntuChain - Lightning Donations</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@400;700&display=swap"
-        rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
-
-    <!-- Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="app.js" defer></script>
 </head>
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">
-            <div class="logo-icon">⚡</div>
-            <span>UbuntuChain</span>
-        </div>
-        <div class="nav-links">
-            <a href="#" id="navDonate">Donate</a>
-            <a href="#" id="navOfframp">Off-ramp (ZAR)</a>
-            <a href="#">Apply for Support</a>
-        </div>
-        <button class="btn-primary" id="navCta">Donate Now</button>
-    </nav>
+    <header class="navbar">
+        <div class="logo">⚡ UbuntuChain</div>
+        <nav class="nav-links">
+            <a href="#" id="navDonate" class="active">Home</a>
+            <a href="#" id="navSupport">Apply for Support</a>
+            <a href="about.html">About</a>
+            <a href="transparency.html">Transparency</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
 
-    <!-- Hero -->
     <header class="hero">
         <h1>Donate via Lightning</h1>
         <p>Fast, borderless, low-fee Bitcoin donations for courses that matter.</p>
@@ -50,35 +38,50 @@
             <!-- Courses injected via JS -->
         </div>
 
-        <!-- Off-ramp View (Hidden by default) -->
-        <div id="offrampView"
-            style="display: none; max-width: 500px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-card);">
-            <h2>ZAR Off-ramp</h2>
-            <p style="margin-bottom: 1.5rem; color: #666;">Convert Bitcoin to ZAR and send to any South African bank
-                account.</p>
+        <!-- SUPPORT APPLICATION FLOW -->
+        <div id="supportWrapper"
+            style="display:none; max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-card);">
+            <h2>Apply for Support</h2>
+            <p style="margin-bottom: 1.5rem; color: #666;">Submit your application for priority-based funding</p>
 
-            <div class="form-group" style="display: flex; flex-direction: column; gap: 1rem;">
-                <select id="countrySelect" class="custom-amount-input" style="margin-bottom:0;">
-                    <option value="ZA" selected>South Africa (ZA)</option>
-                </select>
-                <select id="bankSelect" class="custom-amount-input" style="margin-bottom:0;">
-                    <option value="">Loading Banks...</option>
-                </select>
-                <input type="text" id="accountNumber" class="custom-amount-input" placeholder="Account Number"
-                    style="margin-bottom:0;">
-                <input type="text" id="accountName" class="custom-amount-input" placeholder="Account Name"
-                    style="margin-bottom:0;">
-                <input type="number" id="offrampAmount" class="custom-amount-input" placeholder="Amount (ZAR)" min="10"
-                    style="margin-bottom:0;">
-                <button id="getQuoteBtn" class="btn-primary" style="width: 100%;">Get Quote</button>
+            <div id="supportStep1">
+                <p style="margin-bottom: 1.5rem;">We provide support for financial hardship, medical needs, and other
+                    critical situations. Click below to start your application.</p>
+                <button id="applyNowBtn" class="btn-primary" style="width: 100%;">Start Application</button>
             </div>
 
-            <div id="offrampStatus" class="status-message" style="margin-top: 1rem;"></div>
+            <div id="supportStep2" style="display:none;">
+                <form id="supportForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <label style="font-weight: 500;">Full Name *</label>
+                    <input type="text" name="fullName" class="custom-amount-input" placeholder="Your full name" required
+                        style="margin-bottom:0;">
 
-            <div id="offrampInvoiceContainer" class="invoice-section" style="display:none; text-align: center;">
-                <canvas id="offrampQrCode"></canvas>
-                <div id="offrampInvoiceText"
-                    style="font-size: 0.8rem; word-break: break-all; background: #f5f5f5; padding: 0.5rem; margin-top: 0.5rem;">
+                    <label style="font-weight: 500;">Type of Hardship *</label>
+                    <select name="hardshipType" class="custom-amount-input" required style="margin-bottom:0;">
+                        <option value="">Select hardship type</option>
+                        <option value="Financial">Financial</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label style="font-weight: 500;">Lightning Wallet Address *</label>
+                    <input type="text" name="walletAddress" class="custom-amount-input"
+                        placeholder="Your Lightning wallet address" required style="margin-bottom:0;">
+
+                    <label style="font-weight: 500;">Description</label>
+                    <textarea name="description" class="custom-amount-input"
+                        placeholder="Briefly describe your situation..." rows="4"
+                        style="margin-bottom:0; font-family: inherit;"></textarea>
+
+                    <label style="font-weight: 500;">Supporting Documents</label>
+                    <input type="file" name="supportDocs" class="custom-amount-input" multiple style="margin-bottom:0;">
+
+                    <button type="submit" class="btn-primary" style="margin-top: 1rem;">Submit for Standard
+                        Review</button>
+                </form>
+                <div id="supportSuccess" class="status-message status-success"
+                    style="display:none; margin-top: 1rem; text-align: center;">
+                    Your application has been submitted successfully! ⚡
                 </div>
             </div>
         </div>
@@ -122,6 +125,13 @@
 
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Powered by Bitcoin Lightning Network ⚡</p>
+            <p>© 2026 Ubuntu Chain. All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
 
