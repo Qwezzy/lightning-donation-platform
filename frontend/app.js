@@ -28,7 +28,7 @@ const courses = [
         id: 'limpopo-floods',
         title: 'Limpopo Flood Relief',
         description: 'Emergency aid and rebuilding support for communities affected by floods in Limpopo.',
-        image: 'https://images.unsplash.com/photo-1547683905-f06b1f27f3ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        image: 'images/Natural_Disaster_2.jpeg'
     },
     {
         id: 'child-households',
