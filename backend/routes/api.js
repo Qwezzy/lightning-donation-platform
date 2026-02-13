@@ -15,7 +15,10 @@ export default function createApiRoutes(invoiceGenerator, statusMonitor, lightni
             }
 
             // Generate invoice
-            const invoice = await invoiceGenerator.generateInvoice(parseInt(amount), description || 'Donation');
+            const invoice = await invoiceGenerator.generateInvoice({
+                amount: parseInt(amount),
+                description: description || 'Donation'
+            });
 
             // Create donation record
             const donation = await donationTracker.createDonation({
