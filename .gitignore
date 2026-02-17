@@ -41,3 +41,9 @@ coverage/
 # Build outputs
 dist/
 build/
+
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
+*.pyc
