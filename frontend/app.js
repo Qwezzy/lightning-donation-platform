@@ -8,32 +8,32 @@ const courses = [
     },
     {
         id: 'clean-water',
-        title: 'Clean Water Project',
+        title: 'Water & Sanitation',
         description: 'Building boreholes to provide accessible clean water to rural communities.',
         image: 'https://images.unsplash.com/photo-1538300342682-cf57afb97285?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
     },
     {
         id: 'solar-schools',
-        title: 'Solar For Schools',
+        title: 'Clean Energy for Schools',
         description: 'Providing renewable solar energy to power education in off-grid areas.',
         image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
     },
     {
-        id: 'sustainable-farming',
+        id: 'Sustainable-farming',
         title: 'Sustainable Farming',
         description: 'Supporting smallholder farmers with resources for sustainable agriculture.',
         image: 'https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
     },
     {
-        id: 'limpopo-floods',
-        title: 'Limpopo Flood Relief',
+        id: 'Disaster Relief',
+        title: 'Disaster Relief',
         description: 'Emergency aid and rebuilding support for communities affected by floods in Limpopo.',
         image: 'images/Natural_Disaster_2.jpeg'
     },
     {
-        id: 'child-households',
-        title: 'Child Headed Households',
-        description: 'Comprehensive support and mentorship for children leading households alone.',
+        id: 'Orphanage Support',
+        title: 'Orphanage Support',
+        description: 'Providing essential support and resources to orphanages in need.',
         image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
     }
 ];

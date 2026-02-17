@@ -20,9 +20,9 @@
 </header>
 
 <section class="content">
-    <h1>About Ubuntu Chain</h1>
+    <h1>About UbuntuChain</h1>
 
-    <p>Ubuntu Chain is dedicated to supporting open-source Bitcoin development. Our mission is to provide secure, borderless infrastructure for the Lightning Network.</p>
+    <p>UbuntuChain is dedicated to supporting open-source Bitcoin development. Our mission is to provide secure, borderless infrastructure for the Lightning Network.</p>
     <p>Every donation helps developers maintain the network, improve security, and drive innovation.</p>
 </section>
 
@@ -38,7 +38,7 @@
     <div class="member">
         <img src="images/member2.jpeg" alt="Developer Photo">
         <strong><h3>Neo Legodi</h3></strong>
-        <p>Front-end developer with a strong appreciation for refined design and well-structured code. I craft elegant, intuitive interfaces that are as seamless in performance as they are in appearance.</p>
+        <p>Front-end developer with a strong appreciation for refined design and well-structured code. I craft elegant, intuitive interfaces that are as seamless in performance as they are in appearance, always refining both technical skills and problem-solving abilities.</p>
     </div>
 
     <div class="member">
@@ -50,7 +50,7 @@
     <div class="member">
         <img src="images/member4.jpeg" alt="Founder Photo">
         <h3>Omphile Serekwa</h3>
-        <p>Front-end dev passionate about good design and clean code. I build interfaces that feel as good as they look.</p>
+        <p>Front-end Developer passionate about good design and clean code. I build interfaces that are just not just functional, but intuitive and fast. comfortable collaborating with teams to deliver high-quality user experiences, motivated to grow into a strong Front-end Engineer.</p>
     </div>
 
     <div class="member">
@@ -65,15 +65,74 @@
         <p>Aspiring Cloud and Software Developer with FullStack Development| Microsoft Azure Certification| Bridging BA & Dev with over  10 years in IT</p>
     </div>
 
-    <div class="member">
+   
+     <div class="member">
         <img src="images/member7.jpeg" alt="Founder Photo">
         <strong><h3>Khwezi Flatela</h3></strong>
         <p>I am a seasoned professional in Software Engineering with an unwavering passion for Information Technology. I juggle multiple roles - Entrepreneur,  freelance developer, and a father.</p>
     </div>
 
-    
+
+    <div class="member">
+        <img src="images/member 8.jpeg" alt="Founder Photo">
+         <strong><h3>Kamogelo Aphane</h3></strong>
+        <p>I am a driven Software Developer with a strong background in Python,Javascript.A foundation with programming frameworks, with a passion for shaping Africa's financial future.I have hands on experience in building scalable applications and solving complex technical challenges.</p>
+    </div>
 </div>
 
+
+<script>
+  // Word limit functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const memberParagraphs = document.querySelectorAll('.member p');
+    const wordLimit = 30;
+
+    memberParagraphs.forEach(p => {
+      const fullText = p.textContent;
+      const words = fullText.trim().split(/\s+/);
+      
+      if (words.length > wordLimit) {
+        const truncatedText = words.slice(0, wordLimit).join(' ');
+        const remainingText = words.slice(wordLimit).join(' ');
+        
+        // Store full text in data attribute
+        p.dataset.fullText = fullText;
+        p.dataset.truncatedText = truncatedText;
+        p.classList.add('truncated');
+        
+        // Set initial truncated content
+        p.textContent = truncatedText + '...';
+        
+        // Create and add "see more" button
+        const seeMoreBtn = document.createElement('button');
+        seeMoreBtn.textContent = ' See More';
+        seeMoreBtn.className = 'see-more-btn';
+        
+        seeMoreBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          if (p.classList.contains('truncated')) {
+            // Expand
+            p.textContent = p.dataset.fullText;
+            p.classList.remove('truncated');
+            p.classList.add('full');
+            seeMoreBtn.textContent = ' See Less';
+            p.appendChild(seeMoreBtn);
+          } else {
+            // Collapse
+            p.textContent = p.dataset.truncatedText + '...';
+            p.classList.add('truncated');
+            p.classList.remove('full');
+            seeMoreBtn.textContent = ' See More';
+            p.appendChild(seeMoreBtn);
+          }
+        });
+        
+        p.appendChild(seeMoreBtn);
+      }
+    });
+  });
+</script>
 
 <footer class="footer">
     <div class="footer-content">
