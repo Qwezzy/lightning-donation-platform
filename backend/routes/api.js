@@ -26,8 +26,9 @@ export default function createApiRoutes(invoiceGenerator, statusMonitor, lightni
             console.log(`Generating invoice via Python script for ${amount} sats...`);
 
             // Execute Python script
-            // Ensure we use the right python command. Tries 'python3' then 'python'
-            const command = `python "${pythonScriptPath}" invoice --amount ${amount} --memo "${description || 'Donation'}"`;
+            // Use the venv python to ensure dependencies are available
+            const pythonExecutable = path.join(__dirname, '../../.venv/Scripts/python.exe');
+            const command = `"${pythonExecutable}" "${pythonScriptPath}" invoice --amount ${amount} --memo "${description || 'Donation'}"`;
 
             // Increase maxBuffer for large base64 output if needed (default is 1MB which is enough for QR)
             const { stdout, stderr } = await execPromise(command);
