@@ -92,7 +92,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     background: #2d3748;
-    color: #cbd5e1;
+    color: #a1a1c2;
     transition: 0.3s;
 }
 
@@ -189,7 +189,7 @@ button:active,
 /* Selected donation amount */
 .amount-btn.selected {
     background: linear-gradient(90deg, #fbbf24, #facc15);
-    color: #111827;
+    color: #1b2946;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -264,13 +264,13 @@ button:active,
 }
 
 .gallery-item {
-    background: #2d3748;
+    background: #42c2c7;
     border-radius: 15px;
     overflow: hidden;
     text-align: center;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #202020;
     /* adds a line below each item */
 }
 
@@ -301,6 +301,7 @@ button:active,
     margin: auto;
     padding: 40px 20px;
     text-align: center;
+    color: #ffffff;
 }
 
 /* -------------------------
@@ -328,17 +329,122 @@ button:active,
     }
 }
 
+/* Team / members: top-align and normalize image sizes so cards line up */
 .team {
     display: flex;
     gap: 30px;
+    /* restored original spacing */
     flex-wrap: wrap;
     margin-top: 30px;
     justify-content: center;
+    align-items: flex-start;
+    /* ensure members align at the top of each row */
 }
 
 .member {
     text-align: center;
-    width: 250px;
+    width: 300px;
+    /* increased to match larger avatars */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* avatar: restored original square 150px size to avoid blurriness */
+.member img {
+    width: 180px;
+    /* increased from 180px */
+    height: 280px;
+    object-fit: cover;
+    /* crop to a consistent frame */
+    border-radius: 50%;
+    display: block;
+    border: 3px solid #facc15;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* remove special zoom for first 5 avatars (reverted) */
+
+@media (max-width: 768px) {
+    .member img {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Member bio with word limit */
+.member p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #cbd5e1;
+}
+
+/* See more button styling */
+.see-more-btn {
+    background: none;
+    border: none;
+    color: #e6d600;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 8px;
+    font-size: 14px;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.see-more-btn:hover {
+    color: #fcd34d;
+}
+
+.member p.truncated {
+    display: inline;
+}
+
+.member p.full {
+    display: inline;
+}
+
+/* Explicit styling for mailto link in Contact page */
+a[href^="mailto:"] {
+    color: #ffffff;
+    /* keep as white */
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+a[href^="mailto:"]:hover {
+    color: #facc15;
+    /* accent on hover */
+}
+
+/* Make @LightningFund and github.com/lightningfund links white by default */
+a[href*="twitter.com/lightningfund"],
+a[href*="github.com/lightningfund"] {
+    color: #ffffff;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+a[href*="twitter.com/lightningfund"]:hover,
+a[href*="github.com/lightningfund"]:hover {
+    color: #facc15;
+}
+
+
+@media (max-width: 480px) {
+    .member {
+        width: 100%;
+        max-width: 320px;
+        /* restored */
+    }
+
+    .member img {
+        width: 120px;
+        /* restored square size */
+        height: 120px;
+    }
 }
 
 .member img {
