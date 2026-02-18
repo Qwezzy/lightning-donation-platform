@@ -354,22 +354,23 @@ button:active,
 /* avatar: restored original square 150px size to avoid blurriness */
 .member img {
     width: 180px;
-    /* increased from 180px */
-    height: 280px;
+    height: 180px;
     object-fit: cover;
-    /* crop to a consistent frame */
+    object-position: top;
+    /* crop to face */
     border-radius: 50%;
     display: block;
     border: 3px solid #facc15;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    margin-bottom: 15px;
 }
 
 /* remove special zoom for first 5 avatars (reverted) */
 
 @media (max-width: 768px) {
     .member img {
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
     }
 }
 
@@ -445,16 +446,6 @@ a[href*="github.com/lightningfund"]:hover {
         /* restored square size */
         height: 120px;
     }
-}
-
-.member img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 15px;
-    border: 3px solid #facc15;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 
