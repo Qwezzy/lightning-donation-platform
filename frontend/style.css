@@ -624,3 +624,16 @@ a[href*="github.com/lightningfund"]:hover {
 .status-error {
     color: #f87171;
 }
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.logo-img {
+    height: 70px; 
+    width: auto;
+}
